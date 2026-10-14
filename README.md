@@ -81,3 +81,32 @@ a712abc4032ac35c6b029b15a567c71e30551f59ce05bdcf94b206d12b35bbfe  -
 a712abc4032ac35c6b029b15a567c71e30551f59ce05bdcf94b206d12b35bbfe  -
 [4]+  Done                    curl -s --limit-rate 2M http://127.0.0.1:9000/gros | sha256sum
 ```
+
+Tests relay_cache.py:
+
+python3 -m http.server 8000
+python3 relay_cache.py 127.0.0.1 8000 9000
+
+curl -i http://127.0.0.1:9000/
+curl -i http://127.0.0.1:9000/
+
+Tests sniffeur:
+
+python3 relay_sniffer.py 127.0.0.1 8000 9002
+curl http://127.0.0.1:9002/test-sniffer
+cat sniffer.log
+
+Tests censeur:
+
+curl -i http://127.0.0.1:9000/bonjour
+curl -i http://127.0.0.1:9000/interdit
+
+Tests enchaînement:
+
+python3 -m http.server 8000
+python3 relay_cache.py 127.0.0.1 8000 9001
+python3 relay_censeur.py 127.0.0.1 9001 9000
+
+curl -i http://127.0.0.1:9000/README.md
+curl -i http://127.0.0.1:9000/interdit
+
