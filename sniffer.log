@@ -1,0 +1,8 @@
+IP:127.0.0.1 | REQ:
+GET /test-sniffer HTTP/1.1
+Host: 127.0.0.1:9002
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+---
